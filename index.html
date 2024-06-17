@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script defer type="module">
+      import {Tree} from './src/main.ts';
+      import {sha256} from 'js-sha256';
+
+      const tree = new Tree(sha256.digest);
+      await tree.init();
+      let root = await tree.getRoot();
+      console.log("empty tree", root);
+
+
+    //   let ns = Array.from([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]);
+    //   let body1 = Array.from(length=400).fill(1);
+    //  let data =  Uint8Array.from(ns.concat(body1));
+    //  let h = await tree.hashleaf(data);
+    //  console.log("hash of leaf", h);
+
+      // await tree.push(data);
+      // let body2 = Array.from(length=400).fill(2);
+      // let data2 =  Uint8Array.from(ns.concat(body2));
+      // await tree.push(data2);
+
+      // root = await tree.getRoot();
+      // console.log("tree with 2 nodes", root);
+    </script>
+  </body>
+</html>
