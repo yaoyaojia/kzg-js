@@ -2,12 +2,12 @@ import * as Comlink from 'comlink';
 import Worker from './worker?worker&inline';
 import { SDK } from './worker';
 //import {resolve} from "path";
+import { Buffer } from 'buffer'
 import { loadKZG } from 'kzg-wasm';
 
 
 
 const LinkedSDK = Comlink.wrap<typeof SDK>(new Worker());
-//const TEST_SETUP_FILE_PATH_JSON = resolve(__dirname, "trusted_setup.json");
 
 export class Tree {
   workerApi: any;
