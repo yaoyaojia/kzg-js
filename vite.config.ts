@@ -1,3 +1,4 @@
+import {resolve} from "path"
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -8,20 +9,11 @@ export default defineConfig({
           worker: ['./src/worker.ts']
         }
       }
-    }
-  },
-  plugins: [
-   {
-    name: 'wasm-middleware',
-    configureServer(server) {
-      server.middlewares.use((req, res, next) => {
-        if (req.url && req.url.endsWith('.wasm')) {
-          res.setHeader('Content-Type', 'application/wasm');
-        }
-        next();
-      });
     },
+    lib: {
+      entry: resolve(__dirname, "./src/main.ts"),
+      formats: ["es"]
   },
-  ]
+  }
 });
 
