@@ -16,12 +16,17 @@ export class SDK {
   }
 
   async hashToElement(data: Uint8Array) : Promise<Uint8Array> {
-	return await hashToElement(data);
+	  return await hashToElement(data);
   }
+
+  async blobToKzgCommitment(blob: Uint8Array) : Promise<Uint8Array> {
+    return await blobToKzgCommitment(blob);
+  } 
 }
 
 declare function emptyG1(): Promise<Uint8Array>;
 declare function hashToElement(data: Uint8Array): Promise<Uint8Array>;
+declare function blobToKzgCommitment(blob: Uint8Array): Promise<Uint8Array>;
 
 Comlink.expose(SDK);
 
