@@ -1,13 +1,13 @@
 import * as Comlink from 'comlink';
 import Worker from './worker?worker&inline';
 import { SDK } from './worker';
-import {resolve} from "path";
+//import {resolve} from "path";
 import { blobToKzgCommitment, loadTrustedSetup } from 'c-kzg';
 
 
 
 const LinkedSDK = Comlink.wrap<typeof SDK>(new Worker());
-const TEST_SETUP_FILE_PATH_JSON = resolve(__dirname, "trusted_setup.json");
+//const TEST_SETUP_FILE_PATH_JSON = resolve(__dirname, "trusted_setup.json");
 
 export class Tree {
   wokerApi: any;
@@ -20,7 +20,8 @@ export class Tree {
 	constructor(hashFn){
 		this.hashFn = hashFn;
 		this.leavesHashes = [];
-    loadTrustedSetup(TEST_SETUP_FILE_PATH_JSON);
+    	loadTrustedSetup();
+		console.log("Tree created");
 	}
 
   public async init() {
