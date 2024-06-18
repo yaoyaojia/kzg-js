@@ -62,15 +62,10 @@ export class Tree {
 		for (let i = 1; i < this.leavesHashes.length; i++) {
 			buf = Buffer.concat([buf, Buffer.from(this.leavesHashes[i])]);
 		}
-		
-		console.log("leaves len:", buf.length);
 
 		let left = (4096- this.leavesHashes.length) * 32;
 		buf = Buffer.concat([buf, Buffer.alloc(left, 0)]);
-
-		console.log("padding len:", buf.length);
 		let em =  await this.workerApi.blobToKzgCommitment(buf);
-		console.log("em len:", em.length);
 		let root = [];
 		for (let i =0; i < 29; i++ ){
 			root.push(this.minID[i])
@@ -100,17 +95,3 @@ export class Tree {
 		return root;
 	}
 }
-
-  // try {
-  //   const workerApi = await new LinkedSDK();
-  //   await workerApi.run();
-  //   const result = await workerApi.emptyG1();
-  //   console.log(`Received from worker emptyG1: ${result}`);
-
-  //   const data = new Uint8Array([1, 2, 3, 4, 5, 255, 255]);
-  //   const hashed = await workerApi.hashToElement(data);
-  //   console.log(`Received from worker hashToG1: ${hashed}`);
-  // } catch (error) {
-  //   console.error("Error calling function:", error);
-  // }
-  // console.log("end main");
