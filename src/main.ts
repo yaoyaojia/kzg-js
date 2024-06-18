@@ -2,7 +2,7 @@ import * as Comlink from 'comlink';
 import Worker from './worker?worker&inline';
 import { SDK } from './worker';
 //import {resolve} from "path";
-import { blobToKzgCommitment, loadTrustedSetup } from 'c-kzg';
+import { loadKZG } from 'kzg-wasm';
 
 
 
@@ -10,7 +10,7 @@ const LinkedSDK = Comlink.wrap<typeof SDK>(new Worker());
 //const TEST_SETUP_FILE_PATH_JSON = resolve(__dirname, "trusted_setup.json");
 
 export class Tree {
-  wokerApi: any;
+  workerApi: any;
 	public hashFn: any;
 	public leavesHashes: any[];
 	public minID = [0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff];
@@ -20,13 +20,11 @@ export class Tree {
 	constructor(hashFn){
 		this.hashFn = hashFn;
 		this.leavesHashes = [];
-    	loadTrustedSetup();
-		console.log("Tree created");
 	}
 
   public async init() {
-    this.wokerApi = await new LinkedSDK();
-    await this.wokerApi.run();
+    this.workerApi = await new LinkedSDK();
+    await this.workerApi.run();
   }
 
 	async push(data) {
@@ -47,7 +45,7 @@ export class Tree {
   async hashLeaf(data) {
 		let h = this.hashFn(data);
 		let d = Uint8Array.from(h);
-		let ret =  await this.wokerApi.hashtoElement(d);
+		let ret =  await this.workerApi.hashToElement(d);
 		return ret;
 	}
 
@@ -64,9 +62,10 @@ export class Tree {
 			buf = Buffer.concat([buf, Buffer.from(this.leavesHashes[i])]);
 		}
 		
+		const  obj = await loadKZG();
 		let left = (4096- this.leavesHashes.length) * 32;
 		buf = Buffer.concat([buf, Buffer.alloc(left, 0)]);
-		let em =  blobToKzgCommitment(buf);
+		let em =  obj.blobToKzgCommitment(buf);
 		let root = [];
 		for (let i =0; i < 29; i++ ){
 			root.push(this.minID[i])
@@ -89,7 +88,7 @@ export class Tree {
 		for (let i = 0; i < 29; i++) {
 			root.push(0)
 		}
-		let em =  await this.wokerApi.emptyG1();
+		let em =  await this.workerApi.emptyG1();
 		for (let i = 0; i < em.byteLength; i++) {
             root.push(em[i]);
         }

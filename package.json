@@ -17,6 +17,7 @@
   "dependencies": {
     "c-kzg": "^4.0.0-alpha.1",
     "comlink": "^4.4.1",
-    "js-sha256": "^0.11.0"
+    "js-sha256": "^0.11.0",
+    "kzg-wasm": "^0.4.0"
   }
 }

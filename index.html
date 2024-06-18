@@ -18,19 +18,19 @@
       console.log("empty tree", root);
 
 
-    //   let ns = Array.from([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]);
-    //   let body1 = Array.from(length=400).fill(1);
-    //  let data =  Uint8Array.from(ns.concat(body1));
-    //  let h = await tree.hashleaf(data);
-    //  console.log("hash of leaf", h);
+      let ns = Array.from([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]);
+      let body1 = Array.from(length=400).fill(1);
+      let data =  Uint8Array.from(ns.concat(body1));
+      let h = await tree.hashLeaf(data);
+      console.log("hash of leaf", h);
 
-      // await tree.push(data);
-      // let body2 = Array.from(length=400).fill(2);
-      // let data2 =  Uint8Array.from(ns.concat(body2));
-      // await tree.push(data2);
+      await tree.push(data);
+      let body2 = Array.from(length=400).fill(2);
+      let data2 =  Uint8Array.from(ns.concat(body2));
+      await tree.push(data2);
 
-      // root = await tree.getRoot();
-      // console.log("tree with 2 nodes", root);
+      root = await tree.getRoot();
+      console.log("tree with 2 nodes", root);
     </script>
   </body>
 </html>
